@@ -16,7 +16,8 @@ export default new Vuex.Store({
       obtainJWT: 'api-food_delivery/api/token/',
       refreshJWT: 'api-food_delivery/api/token/refresh/',
       // baseURL: 'http://127.0.0.1:8000/',
-      baseURL: 'https://try-coding.herokuapp.com/'
+      baseURL: 'https://try-coding.herokuapp.com/',
+      baseURL2: 'https://try-coding.herokuapp.com/'
     },
     loggedIn: '',
     registered: '',
