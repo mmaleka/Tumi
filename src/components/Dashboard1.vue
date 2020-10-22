@@ -6,12 +6,10 @@
         </v-col>
     </v-row>
     <v-row align="center" justify="center">
-        <!-- <v-col cols="12"> -->
-
-
+        <v-col xs="12" sm="8" md="3" lg="3" xl="3" cols="12">
             <v-card
             class="mx-auto"
-            max-width="344"
+            max-width=""
             outlined
             >
             <v-list-item three-line>
@@ -38,10 +36,12 @@
             </v-list-item-avatar>
             </v-list-item>
             </v-card>
+        </v-col>
 
+        <v-col xs="12" sm="8" md="3" lg="3" xl="3" cols="12">
             <v-card
             class="mx-auto"
-            max-width="344"
+            max-width=""
             outlined
             >
             <v-list-item three-line>
@@ -68,7 +68,10 @@
             </v-list-item-avatar>
             </v-list-item>
             </v-card>
+        </v-col>
 
+
+        <v-col xs="12" sm="8" md="3" lg="3" xl="3" cols="12">
             <v-card
             class="mx-auto"
             max-width="white"
@@ -98,10 +101,13 @@
             </v-list-item-avatar>
             </v-list-item>
             </v-card>
+        </v-col>
 
+
+        <v-col xs="12" sm="8" md="3" lg="3" xl="3" cols="12">
             <v-card
             class="mx-auto"
-            max-width="344"
+            max-width=""
             outlined
             >
             <v-list-item three-line>
@@ -128,9 +134,9 @@
             </v-list-item-avatar>
             </v-list-item>
             </v-card>
+        </v-col>
 
 
-        <!-- </v-col> -->
     </v-row>
 
 

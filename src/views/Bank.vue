@@ -2,7 +2,7 @@
   <div>
     <v-container class="grey lighten-5">
       <v-row align="center" justify="center">
-        <v-col cols="8" class="pa-md-4 mx-lg-auto">
+        <v-col xs="12" sm="8" md="8" lg="8" xl="8" class="pa-md-4 mx-lg-auto">
           <h3 class="blue-grey--text pa-4">Hello {{ user_profile.user_name2 }}</h3>
           <v-divider></v-divider>
           <p class="blue-grey--text pa-16">
@@ -12,10 +12,10 @@
           
       </v-row>
       <v-row align="top" justify="center">
-          <v-col cols="8">
+          <v-col xs="12" sm="8" md="8" lg="8" xl="8">
             <BankingForm />
           </v-col>
-          <v-col cols="4">
+          <v-col xs="12" sm="4" md="4" lg="4" xl="4">
             <ProfileCard />
           </v-col>
         </v-row>
