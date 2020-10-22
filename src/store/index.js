@@ -201,14 +201,9 @@ export default new Vuex.Store({
 
     async updateProfile({ commit }, UpdateProfileData) {
       commit('nullShit');
-
-      // get the owner using user id
       const res_profile = await axios.get(
         this.state.endpoints.baseURL + 'api-accounts_profile/accounts_profile_detail/?search=' + UpdateProfileData.user_id)
       let res_profile_id = res_profile.data[0].id
-
-      // console.log("res_profile_id: ", res_profile_id);
-
       const url = this.state.endpoints.baseURL + 'api-accounts_profile/accounts_profile_detail/' + res_profile_id + '/'
       axios
         .patch(url, {
@@ -217,13 +212,34 @@ export default new Vuex.Store({
           about: UpdateProfileData.about,
         })
         .then(resupdateProfile => {
-          Vue.$toast.open("Profile updated" + resupdateProfile, {
+          Vue.$toast.open("Profile updated", {
             timeout: 2000
           });
           var user_id = UpdateProfileData.user_id
           this.dispatch('fetchProfile', user_id )
         })
+    },
 
+    async updateBank({ commit }, UpdateBankData) {
+      commit('nullShit');
+      const res_profile = await axios.get(
+        this.state.endpoints.baseURL + 'api-accounts_profile/accounts_profile_detail/?search=' + UpdateBankData.user_id)
+      let res_profile_id = res_profile.data[0].id
+      const url = this.state.endpoints.baseURL + 'api-accounts_profile/accounts_profile_detail/' + res_profile_id + '/'
+      axios
+        .patch(url, {
+          account_holder_name: UpdateBankData.account_holder_name,
+          account_number: UpdateBankData.account_number,
+          bank_name: UpdateBankData.name_of_bank,
+        })
+        .then(resupdateBank => {
+          Vue.$toast.open("Bank Details updated" + resupdateBank, {
+            timeout: 2000
+          });
+          console.log("resupdateBank: ", resupdateBank);
+          var user_id = UpdateBankData.user_id
+          this.dispatch('fetchProfile', user_id)
+        })
     }
 
 

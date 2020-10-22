@@ -14,41 +14,41 @@ const routes = [
   {
     path: '/donate',
     name: 'Donate',
-    // meta: {
-    //   requiresAuth: true
-    // },
+    meta: {
+      requiresAuth: true
+    },
     component: () => import(/* webpackChunkName: "about" */ '../views/Donate.vue')
   },
   {
     path: '/receive',
     name: 'Receive',
-    // meta: {
-    //   requiresAuth: true
-    // },
+    meta: {
+      requiresAuth: true
+    },
     component: () => import(/* webpackChunkName: "about" */ '../views/Receive.vue')
   },
   {
     path: '/testimony',
     name: 'Testimony',
-    // meta: {
-    //   requiresAuth: true
-    // },
+    meta: {
+      requiresAuth: true
+    },
     component: () => import(/* webpackChunkName: "about" */ '../views/Testimony.vue')
   },
   {
     path: '/profile',
     name: 'Profile',
-    // meta: {
-    //   requiresAuth: true
-    // },
+    meta: {
+      requiresAuth: true
+    },
     component: () => import(/* webpackChunkName: "about" */ '../views/Profile.vue')
   },
   {
     path: '/bank',
     name: 'Bank',
-    // meta: {
-    //   requiresAuth: true
-    // },
+    meta: {
+      requiresAuth: true
+    },
     component: () => import(/* webpackChunkName: "about" */ '../views/Bank.vue')
   },
   {
