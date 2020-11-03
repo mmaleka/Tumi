@@ -17,12 +17,11 @@ export default new Vuex.Store({
       refreshJWT: 'api-food_delivery/api/token/refresh/',
       // baseURL: 'http://127.0.0.1:8000/',
       baseURL: 'https://try-coding.herokuapp.com/',
-      baseURL2: 'https://try-coding.herokuapp.com/'
     },
     loggedIn: '',
     registered: '',
     profile: '',
-
+    donate: '',
 
   },
   mutations: {
@@ -68,6 +67,9 @@ export default new Vuex.Store({
     addProfile(state, profile_data) {
       state.profile = profile_data
     },
+    addDonate(state, donate_data) {
+      state.donate = donate_data
+    }
 
   },
   getters: {
@@ -77,7 +79,7 @@ export default new Vuex.Store({
     userName1: state => state.username,
     loggedIn: state => state.loggedIn,
     user_profile: state => state.profile,
-
+    user_donate: state => state.donate
 
 
   },
@@ -241,7 +243,93 @@ export default new Vuex.Store({
           var user_id = UpdateBankData.user_id
           this.dispatch('fetchProfile', user_id)
         })
-    }
+    },
+
+    async fetchDonate({ commit }, user_id) {
+
+      console.log("user_id: ", user_id);
+      const res_donate = await axios.get(this.state.endpoints.baseURL + 'api-fundingscheam/api_donation_owner/?search=' + user_id)
+      console.log("res_donate.data: ", res_donate.data);
+      commit('addDonate', res_donate.data)
+
+    },
+
+    async newDonate({ commit }, newDonateData) {
+
+      const url = this.state.endpoints.baseURL + 'api-fundingscheam/api_donation/'
+      var mature_days = 10;
+      var interest_rate = 10;
+
+      if (newDonateData.select == 'Plan A (100% in 10 days)') {
+        mature_days = 10;
+        interest_rate = 10;
+      } else {
+        mature_days = 15;
+        interest_rate = 15;
+      }
+
+      axios
+        .post(url, {
+          owner: newDonateData.user_id,
+          mature_days: mature_days,
+          interest_rate: interest_rate,
+          ph_amount: newDonateData.PH_amount,
+        })
+        .then(res => {
+          Vue.$toast.open("Donation Added", {
+            timeout: 2000
+          });
+        })
+        .catch(err => {
+          Vue.$toast.open("Cannot add", {
+            timeout: 2000
+          });
+        });
+
+    },
+
+    async donationCancel({ commit }, donateData) {
+      
+      const url = this.state.endpoints.baseURL + 'api-fundingscheam/api_donation/' + donateData.item_id + '/'
+      axios
+        .patch(url, {
+          is_cancel: true,
+        })
+        .then(res => {
+          Vue.$toast.open("Donation Cancelled", {
+            timeout: 2000
+          });
+          this.dispatch('fetchDonate', donateData.user_id)
+        })
+        .catch(err => {
+          Vue.$toast.open("Cannot Cancel", {
+            timeout: 2000
+          });
+        });
+
+    },
+
+    async addTestimony({ commit }, testimonyData) {
+
+      const url = this.state.endpoints.baseURL + 'api-fundingscheam/api_testimony_owner/'
+      axios
+        .post(url, {
+          testimony: testimonyData.testimony,
+          owner: testimonyData.user_id
+        })
+        .then(res => {
+          Vue.$toast.open("Testimony Submitted", {
+            timeout: 2000
+          });
+        })
+        .catch(err => {
+          Vue.$toast.open("Error Submitting testimony", {
+            timeout: 2000
+          });
+        });
+
+    },
+
 
 
   },

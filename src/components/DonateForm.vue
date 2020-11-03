@@ -46,53 +46,59 @@
 </template>
 
 <script>
-  import { required, email, max } from 'vee-validate/dist/rules'
-  import { extend, ValidationObserver, ValidationProvider, setInteractionMode } from 'vee-validate'
+import { required, email, max } from 'vee-validate/dist/rules'
+import { extend, ValidationObserver, ValidationProvider, setInteractionMode } from 'vee-validate'
+import { mapGetters } from 'vuex';
+import VueJwtDecode from 'vue-jwt-decode';
 
-  setInteractionMode('eager')
+setInteractionMode('eager')
 
-  extend('required', {
-    ...required,
-    message: '{_field_} can not be empty',
-  })
+extend('required', {
+  ...required,
+  message: '{_field_} can not be empty',
+})
 
-  extend('max', {
-    ...max,
-    message: '{_field_} may not be greater than {length} characters',
-  })
+extend('max', {
+  ...max,
+  message: '{_field_} may not be greater than {length} characters',
+})
 
 
-  export default {
-    components: {
-      ValidationProvider,
-      ValidationObserver,
+export default {
+  components: {
+    ValidationProvider,
+    ValidationObserver,
+  },
+  data: () => ({
+      PH_amount: '',
+      select: null,
+      items: [
+          'Plan A (100% in 10 days)',
+          'Plan B (150% in 15 days)',
+      ],
+      checkbox: false,
+  }),
+
+  methods: {
+    submit () {
+      this.$refs.observer.validate()
+
     },
-    data: () => ({
-        PH_amount: '',
-        select: null,
-        items: [
-            'Plan A (100% in 10 days)',
-            'Plan B (150% in 15 days)',
-        ],
-        checkbox: false,
-    }),
-
-    methods: {
-      submit () {
+    Donate(e){
         this.$refs.observer.validate()
+        let user_id = VueJwtDecode.decode(this.$store.getters.userjwt).user_id
+        e.preventDefault();
+          const DonateData  = {
+              PH_amount: this.PH_amount,
+              select: this.select,
+              checkbox: this.checkbox,
+              user_id: user_id,
+          }
 
-      },
-      Donate(e){
-          this.$refs.observer.validate()
-          e.preventDefault();
-            const DonateData  = {
-                PH_amount: this.PH_amount,
-                select: this.select,
-                checkbox: this.checkbox,
-            }
-            console.log("DonateData: ", DonateData);
+        // Add new donation
+        this.$store.dispatch('newDonate', DonateData)
 
-      },
     },
-  }
+  },
+}
 </script>

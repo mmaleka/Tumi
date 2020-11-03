@@ -24,22 +24,34 @@
                     <thead>
                         <tr>
                         <th class="text-left">
+                            #
+                        </th>
+                        <th class="text-left">
+                            PH Date
+                        </th>
+                        <th class="text-left">
                             PH Amount
                         </th>
                         <th class="text-left">
                             Paid
                         </th>
                         <th class="text-left">
+                            Interest
+                        </th>
+                        <th class="text-left">
+                            Bonus
+                        </th>
+                        <th class="text-left">
                             Unpaid
                         </th>
                         <th class="text-left">
+                            Total
+                        </th>
+                        <th class="text-left">
+                            Mature Day
+                        </th>
+                        <th class="text-left">
                             Status
-                        </th>
-                        <th class="text-left">
-                            Last modified
-                        </th>
-                        <th class="text-left">
-                            Action
                         </th>
                         <th class="text-left">
                             Action
@@ -48,11 +60,48 @@
                     </thead>
                     <tbody>
                         <tr
-                        v-for="item in desserts"
-                        :key="item.name"
+                        v-for="item in user_donate.filter((item) => item.is_cancel === false)"
+                        :key="item.id"
                         >
-                        <td>{{ item.name }}</td>
-                        <td>{{ item.calories }}</td>
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.ph_date }}</td>
+                        <td>{{ item.ph_amount }}</td>
+                        <td>{{ item.paid }}</td>
+                        <td>{{ item.get_interest }}</td>
+                        <td>{{ item.bonus }}</td>
+                        <td>{{ item.get_unpaid }}</td>
+                        <td>{{ item.get_total }}</td>
+                        <td>{{ item.get_mature_day }}</td>
+                        <td v-if="item.get_mature_day === date_today"
+                            class="blue--text"> 
+                            Complete
+                        </td>
+                        <td v-else
+                            class="red--text">
+                            Pending
+                        </td>
+                        <td v-if="item.get_mature_day === date_today"> 
+                            <v-btn
+                            rounded
+                            color="success"
+                            dark
+                            >
+                            Withdraw
+                            </v-btn>
+                        </td>
+                        <td v-else>
+                            <v-btn
+                            v-on:click="cancel_donation( item.id )"
+                            rounded
+                            color="warning"
+                            dark
+                            >
+                            Cancel
+                            </v-btn>
+                        </td> 
+                        <td>
+                            
+                        </td>
                         </tr>
                     </tbody>
                     </template>
@@ -69,8 +118,36 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import VueJwtDecode from 'vue-jwt-decode';
+
 export default {
-    name: "Transections"
+    name: "Transections",
+
+    data: () => ({
+        date_today: 'cvghfg',
+    }),
+
+    methods: {
+        cancel_donation: function (item_id) {
+            let user_id = VueJwtDecode.decode(this.$store.getters.userjwt).user_id
+            const donateData = {
+                item_id: item_id,
+                user_id: user_id
+            }
+            this.$store.dispatch('donationCancel', donateData)
+        }
+    },
+
+    computed: mapGetters(['user_donate', 'userjwt']),
+    created() {
+        let user_id = VueJwtDecode.decode(this.$store.getters.userjwt).user_id
+        this.$store.dispatch('fetchDonate', user_id)
+        let now = new Date()
+        const date = now.getFullYear()+'-'+(now.getMonth()+1)+'-'+now.getDate();
+        this.date_today = date
+    },
+
 }
 </script>
 

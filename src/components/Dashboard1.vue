@@ -140,7 +140,7 @@
     </v-row>
 
 
-        <v-card
+        <!-- <v-card
         class="d-flex justify-space-around mb-6"
         :color="$vuetify.theme.dark ? 'grey darken-3' : 'grey lighten-4'"
         flat
@@ -191,7 +191,7 @@
         </div>
 
 
-        </v-card>
+        </v-card> -->
 
     
 

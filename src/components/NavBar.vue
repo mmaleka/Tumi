@@ -156,14 +156,16 @@ export default {
         
     },
     methods: {
-      ...mapActions(['fetchProfile']),
+        ...mapActions(['fetchProfile']),
     },
     data() {
         return {
             drawer: false
         }
     },
-    computed: mapGetters(['userjwt']),
+    computed: {
+        ...mapGetters(['userjwt', 'user_profile']),
+    }, 
     created() {
         let user_id = VueJwtDecode.decode(this.$store.getters.userjwt).user_id
         this.fetchProfile(user_id);

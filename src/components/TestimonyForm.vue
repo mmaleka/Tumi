@@ -31,6 +31,7 @@
 <script>
   import { required, max } from 'vee-validate/dist/rules'
   import { extend, ValidationObserver, ValidationProvider, setInteractionMode } from 'vee-validate'
+  import VueJwtDecode from 'vue-jwt-decode';
 
   setInteractionMode('eager')
 
@@ -61,11 +62,15 @@
       },
       Login(e){
           this.$refs.observer.validate()
+          let user_id = VueJwtDecode.decode(this.$store.getters.userjwt).user_id
           e.preventDefault();
-            const TestimonyData  = {
+            const testimonyData  = {
                 testimony: this.testimony,
+                user_id: user_id
             }
-            console.log("TestimonyData: ", TestimonyData);
+            console.log("testimonyData: ", testimonyData);
+            this.$store.dispatch('addTestimony', testimonyData);
+            this.testimony = '';
 
       },
     },

@@ -53,11 +53,24 @@
                     </thead>
                     <tbody>
                         <tr
-                        v-for="item in desserts"
+                        v-for="item in user_donate.filter((item) => item.is_cancel === false)"
                         :key="item.name"
                         >
-                        <td>{{ item.name }}</td>
-                        <td>{{ item.calories }}</td>
+                        <td>{{ item.ph_date }}</td>
+                        <td>{{ item.get_mature_day }}</td>
+                        <td>{{ item.ph_amount }}</td>
+                        <td>{{ item.get_interest }}</td>
+                        <td>{{ item.bonus }}</td>
+                        <td>{{ item.get_total }}</td>
+                        <td> 
+                            <v-btn
+                            rounded
+                            color="info"
+                            dark
+                            >
+                            Withdraw
+                            </v-btn>
+                        </td>
                         </tr>
                     </tbody>
                     </template>
@@ -74,17 +87,26 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import VueJwtDecode from 'vue-jwt-decode';
 
 
 export default {
-  name: "Receive",
-  data: () => ({
-      alignments: [
+    name: "Receive",
+    data: () => ({
+        alignments: [
         'start',
         'center',
         'end',
-      ],
+        ],
     }),
+
+    computed: mapGetters(['user_donate', 'userjwt']),
+    created() {
+        let user_id = VueJwtDecode.decode(this.$store.getters.userjwt).user_id
+        this.$store.dispatch('fetchDonate', user_id)
+    },
+
 }
 </script>
 
